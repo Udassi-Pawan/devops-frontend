@@ -4,14 +4,9 @@ import WhoOnline from "./components/WhoOnline";
 export interface pageProps {}
 
 export default async function Page({}: pageProps) {
-  let _allGroups;
-  const { data } = await axios.request({
-    timeout: 4000,
-    signal: AbortSignal.timeout(4000),
-    method: "GET",
-    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/group/all`,
-  });
-  _allGroups = data;
+  let _allGroups = await (
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/group/all`)
+  ).json();
   return (
     <div className="flex flex-col items-center justify-around gap-10 mt-5">
       <Link href="/create">

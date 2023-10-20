@@ -1,0 +1,46 @@
+
+pipeline {
+    agent any
+    options {
+        skipStagesAfterUnstable()
+    }
+    stages {
+         stage('Clone repository') { 
+            steps { 
+                script{
+                git branch : "main", url : "https://github.com/Udassi-Pawan/devops-frontend.git"
+                }
+            }
+        }
+
+        stage('Build') { 
+            steps { 
+                script{
+                 app = docker.build("frontend")
+                }
+            }
+        }
+        stage('Test'){
+            steps {
+                 echo 'Empty'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script{
+                        docker.withRegistry('https://869704295115.dkr.ecr.us-east-1.amazonaws.com/frontend', 'ecr:us-east-1:aws-credentials') {
+                    app.push("${env.BUILD_NUMBER}")
+                    app.push("latest")
+                    }
+                }
+            }
+        }
+        stage('Deploy to ECS') {
+            steps {
+                withAWS(credentials : 'aws-credentials', region : "us-east-1") {
+                    sh "aws ecs update-service  --cluster frontend --service frontend --force-new-deployment"
+                }
+            }
+        }
+    }
+}

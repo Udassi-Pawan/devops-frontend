@@ -15,7 +15,7 @@ export default async function Page({}: pageProps) {
         </button>
       </Link>
       <div className="flex flex-col items-center justify-center gap-5">
-        <h1 className="text-5xl font-bold">Groups</h1>
+        <h1 className="text-5xl font-bold">Groupssssssssssssssss</h1>
         {_allGroups?.map((g: any) => (
           <div key={g._id} className="">
             {

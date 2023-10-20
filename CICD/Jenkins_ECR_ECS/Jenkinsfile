@@ -13,10 +13,11 @@ pipeline {
             }
         }
 
-        stage('Build') { 
-            steps { 
-                script{
-                 app = docker.build("frontend")
+        stage('Build') {
+            steps {
+                script {
+                  
+                        app = docker.build("frontend", "--build-arg NEXT_PUBLIC_BACKEND_URL=http://backendALB-1115484553.us-east-1.elb.amazonaws.com:3333 .")
                 }
             }
         }
@@ -35,7 +36,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to ECS') {
+           stage('Deploy to ECS') {
             steps {
                 withAWS(credentials : 'aws-credentials', region : "us-east-1") {
                     sh "aws ecs update-service  --cluster frontend --service frontend --force-new-deployment"

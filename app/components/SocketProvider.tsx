@@ -14,9 +14,9 @@ export { SocketContext };
 export function SocketProvider({ children }: SocketProviderProps) {
   const [socket, setSocket] = useState<any>(null);
   useEffect(() => {
+    if (socket) return;
     const client = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`);
-    console.log("socket hear", client);
-
+    console.log("connecting now", client);
     const clientPromise = new Promise((resolve) => {
       client.on("connect", () => {
         resolve(client);

@@ -6,7 +6,6 @@ export interface OnlineProps {}
 
 export default function WhoOnline({}: OnlineProps) {
   let { socket } = useContext(SocketContext);
-  console.log(socket);
   const [users, setUsers] = useState<string[]>();
   const checkHandler = useCallback(async () => {
     socket?.emit("whoOnline", {}, (socketToUser: string[]) => {
@@ -16,6 +15,8 @@ export default function WhoOnline({}: OnlineProps) {
   }, [socket]);
   useEffect(() => {
     checkHandler();
+    if (!socket) return;
+    console.log(socket);
     socket?.emit("joinSocket", {}, (clientId: string) => {
       console.log(clientId);
     });

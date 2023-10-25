@@ -3,19 +3,16 @@ import WhoOnline from "./components/WhoOnline";
 export interface pageProps {}
 
 export default async function Page({}: pageProps) {
-  let _allGroups = await (
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/group/all`)
-  ).json();
+  let _allGroups;
+  try {
+    _allGroups = await (
+      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/group/all`)
+    ).json();
+  } catch (e) {}
   return (
     <div className="flex flex-col items-center justify-around gap-10 mt-5">
-      <Link href="/create">
-        <button className="BtnCreate">
-          <div className="signCreate">+</div>
-          <div className="textCreate">Create</div>
-        </button>
-      </Link>
       <div className="flex flex-col items-center justify-center gap-5">
-        <h1 className="text-5xl font-bold">Groupssssssssssssssss</h1>
+        <h1 className="text-5xl font-bold">Groups</h1>
         {_allGroups?.map((g: any) => (
           <div key={g._id} className="">
             {

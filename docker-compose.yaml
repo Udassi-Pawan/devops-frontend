@@ -1,0 +1,17 @@
+version: "3"
+services:
+  frontend:
+    image: frontend
+    depends_on:
+      - backend
+  nginx:
+    build: ./nginx/
+    ports:
+      - 80:80
+    depends_on:
+      - frontend
+      - backend
+  backend:
+    image: backend
+    environment:
+      - MONGO_PASS=99Gtua8LGW7I6Xzk

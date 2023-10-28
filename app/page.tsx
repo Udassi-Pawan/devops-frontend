@@ -1,3 +1,4 @@
+const dynamic = "force-dynamic";
 import Link from "next/link";
 import WhoOnline from "./components/WhoOnline";
 export interface pageProps {}
@@ -5,9 +6,11 @@ export interface pageProps {}
 export default async function Page({}: pageProps) {
   let _allGroups;
   try {
+    console.log("group request");
     _allGroups = await (
-      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/group/all`)
+      await fetch(`api/group/all`, { cache: "no-store" })
     ).json();
+    console.log("received group data", _allGroups);
   } catch (e) {}
   return (
     <div className="flex flex-col items-center justify-around gap-10 mt-5">
@@ -41,3 +44,5 @@ export default async function Page({}: pageProps) {
     </div>
   );
 }
+
+export const revalidate = 1;

@@ -15,7 +15,10 @@ export function SocketProvider({ children }: SocketProviderProps) {
   const [socket, setSocket] = useState<any>(null);
   useEffect(() => {
     if (socket) return;
-    const client = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`);
+    const client = io(`http://localhost`, {
+      path: "/api/socket.io", // Specify the path to match the location defined in Nginx
+      transports: ["websocket"], // Use the 'websocket' transport
+    });
     console.log("connecting now", client);
     const clientPromise = new Promise((resolve) => {
       client.on("connect", () => {

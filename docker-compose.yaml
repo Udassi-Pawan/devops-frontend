@@ -1,7 +1,7 @@
 version: "3"
 services:
   frontend:
-    image: frontend
+    image: udassi/frontend-client
     depends_on:
       - backend
   nginx:

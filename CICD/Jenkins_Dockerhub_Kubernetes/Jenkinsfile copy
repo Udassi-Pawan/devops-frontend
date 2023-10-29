@@ -1,0 +1,62 @@
+
+pipeline {
+    agent any
+    options {
+        skipStagesAfterUnstable()
+    }
+   
+    stages {
+         stage('Clone repository') { 
+            steps { 
+                script{
+                git branch : "main", url : "https://github.com/Udassi-Pawan/devops-frontend.git"
+                }
+            }
+        }
+
+        stage('Build') { 
+            steps { 
+                script{
+                app = docker.build("udassi/frontend", "--build-arg NEXT_PUBLIC_BACKEND_URL=http://ad638129fc84a4705a6f7bdfd49522be-1823687589.us-east-1.elb.amazonaws.com .")
+
+                }
+            }
+        }
+        stage('Test'){
+            steps {
+                 echo 'Empty'
+            }
+        }
+        stage('Upload Image') {
+            steps {
+                script{
+                        docker.withRegistry('', 'dockerhub') {
+                    app.push("V$BUILD_NUMBER")
+                    app.push("latest")
+                    }
+                }
+            }
+        }
+        
+        stage('Remove Unused docker image') {
+            steps {
+                script{
+                    sh "docker rmi udassi/frontend"
+                    }
+                }
+            }
+            
+            stage('Deploy New Image') {
+            agent {
+                label 'kops' // Specify the agent label only for this stage
+            }
+            steps {
+                script { 
+                    sh "kubectl rollout restart deployment frontend-deployment"
+
+                      
+                }
+            }
+            }
+        }
+    }

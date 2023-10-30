@@ -1,3 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  selector:
+    app: frontend
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  type: ClusterIP
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,7 +30,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: udassi/frontend
+          image: udassi/frontend-nginx
           imagePullPolicy: Always
           ports:
             - containerPort: 3000

@@ -1,5 +1,4 @@
 const dynamic = "force-dynamic";
-import Link from "next/link";
 import WhoOnline from "./components/WhoOnline";
 export interface pageProps {}
 

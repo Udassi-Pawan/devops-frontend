@@ -1,27 +1,23 @@
-"use client";
+const dynamic = "force-dynamic";
 import Link from "next/link";
 import WhoOnline from "./components/WhoOnline";
-import { useEffect, useState } from "react";
 export interface pageProps {}
 
-export default function Page({}: pageProps) {
-  const [groups, setGroups] = useState<any>(null);
-
-  useEffect(() => {
-    (async function () {
-      console.log("reeeeeeeeeeeeeeeee");
-      const _allGroups = await (
-        await fetch(`http://localhost/api/group/all`)
-      ).json();
-      console.log(_allGroups, "group fetch res");
-      setGroups(_allGroups);
-    })();
-  }, []);
+export default async function Page({}: pageProps) {
+  let _allGroups;
+  try {
+    console.log("group request");
+    _allGroups = await (
+      await fetch(`http://nginx/api/group/all`, { cache: "no-store" })
+    ).json();
+  } catch (e) {
+    console.log("this is error", e);
+  }
   return (
     <div className="flex flex-col items-center justify-around gap-10 mt-5">
       <div className="flex flex-col items-center justify-center gap-5">
         <h1 className="text-5xl font-bold">Groups</h1>
-        {groups?.map((g: any) => (
+        {_allGroups?.map((g: any) => (
           <div key={g._id} className="">
             {
               <div className="mx-5 flex items-center bg-white border border-gray-100 rounded-lg shadow flex-row max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -47,3 +43,5 @@ export default function Page({}: pageProps) {
     </div>
   );
 }
+
+export const revalidate = 1;

@@ -45,8 +45,8 @@ jobs:
          uses: kodermax/kubectl-aws-eks@main
          env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-          with:
-            args: kubectl rollout restart deployment/frontend-deployment
+         with:
+          args: kubectl rollout restart deployment/frontend-deployment
 
         
   

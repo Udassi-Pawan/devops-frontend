@@ -7,7 +7,7 @@ export default async function Page({}: pageProps) {
   try {
     console.log("group request");
     _allGroups = await (
-      await fetch(`http://nginx/api/group/all`, { cache: "no-store" })
+      await fetch(`http://backend:3333/group/all`, { cache: "no-store" })
     ).json();
   } catch (e) {
     console.log("this is error", e);

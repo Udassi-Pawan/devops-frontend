@@ -8,7 +8,7 @@ pipeline {
          stage('Clone repository') { 
             steps { 
                 script{
-                git branch : "main", url : "https://github.com/Udassi-Pawan/devops-frontend.git"
+                git branch : "jenkins-ecr-ecs", url : "https://github.com/Udassi-Pawan/devops-frontend.git"
                 }
             }
         }

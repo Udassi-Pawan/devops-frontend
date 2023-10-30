@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: udassi/frontend-ingress
+          image: udassi/frontend
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
